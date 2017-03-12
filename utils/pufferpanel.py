@@ -11,7 +11,10 @@ def get_player_list():
     players = requests.get("{}/server".format(url), headers={"X-Access-Server":xas, "X-Access-Token":xat}).json()["query"]["players"]
     list = []
     for p in players:
-        list.append(p["name"])
+        try:
+            list.append(p["name"])
+        except KeyError:
+            continue
     if len(list) == 0:
         list = "```There are no players online```"
     else:
