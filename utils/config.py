@@ -5,10 +5,12 @@ class Defaults:
     name = "a minecraft server"
     token = None
     command_prefix = "srv!"
+    dev_role_id = None
     admin_role_ids = []
-    xas = None
-    xat = None
-    puffer_url = None
+    senior_admin_role_id = None
+    amp_username = None
+    amp_password = None
+    amp_panel_url = None
 
 class Config:
     def __init__(self):
@@ -18,17 +20,19 @@ class Config:
         config = configparser.ConfigParser(interpolation=None)
         config.read(self.config_file, encoding="utf-8")
 
-        sections = {"Bot", "PufferPanel"}.difference(config.sections())
+        sections = {"Bot", "AMP"}.difference(config.sections())
         if sections:
             print("Could not load a section in the config file, please obtain a new config file from the github repo")
             os._exit(1)
         self.name = config.get("Bot", "Name", fallback=Defaults.name)
         self._token = config.get("Bot", "Token", fallback=Defaults.token)
         self.command_prefix = config.get("Bot", "Command_Prefix", fallback=Defaults.command_prefix)
+        self.dev_role_id = config.get("Bot", "Developer_Role_ID", fallback=Defaults.dev_role_id)
         self.admin_role_ids = config.get("Bot", "Admin_Role_IDs", fallback=Defaults.admin_role_ids)
-        self.xas = config.get("PufferPanel", "X-Access-Server", fallback=Defaults.xas)
-        self.xat = config.get("PufferPanel", "X-Access-Token", fallback=Defaults.xat)
-        self.puffer_url = config.get("PufferPanel", "URL", fallback=Defaults.puffer_url)
+        self.senior_admin_role_id = config.get("Bot", "Senior_Admin_Role_ID", fallback=Defaults.senior_admin_role_id)
+        self.amp_username = config.get("AMP", "AMP_Username", fallback=Defaults.amp_username)
+        self.amp_password = config.get("AMP", "AMP_Password", fallback=Defaults.amp_password)
+        self.amp_panel_url = config.get("AMP", "URL", fallback=Defaults.amp_panel_url)
 
         self.check()
 
@@ -43,14 +47,14 @@ class Config:
             except:
                 self.admin_role_ids = Defaults.admin_role_ids
 
-        if not self.xas:
-            print("No X-Access-Server was specified in the config")
+        if not self.amp_username:
+            print("No AMP username was specified in the config")
             os._exit(1)
 
-        if not self.xat:
-            print("No X-Access-Token was specified in the config")
+        if not self.amp_password:
+            print("No AMP password was specified in the config")
             os._exit(1)
 
-        if not self.puffer_url:
-            print("No PufferPanel url was specified in the config")
+        if not self.amp_panel_url:
+            print("No AMP panel url was specified in the config")
             os._exit(1)
