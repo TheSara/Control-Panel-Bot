@@ -1,4 +1,5 @@
 import os
+import logging
 
 from discord.ext import commands
 from utils.config import Config
@@ -10,6 +11,20 @@ config = Config()
 desc = "Server control bot for {}".format(config.name)
 
 bot = commands.Bot(command_prefix=config.command_prefix, description=desc, pm_help=False)
+
+def init_console_logger():
+    logger = logging.getLogger("consolelogger")
+    format = logging.Formatter("%(asctime)s %(message)s")
+    fileHandler = logging.FileHandler("commands.log")
+    fileHandler.setFormatter(format)
+    streamHandler = logging.StreamHandler()
+    streamHandler.setFormatter(format)
+    logger.setLevel(logging.INFO)
+    logger.addHandler(fileHandler)
+    logger.addHandler(streamHandler)
+init_console_logger()
+
+console_logger = logging.getLogger("consolelogger")
 
 class Server():
     def __init__(self, bot):
@@ -101,7 +116,11 @@ class Server():
     @commands.command()
     async def list(self):
         """Gets the list of online players"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "offline":
             await self.bot.say("The server is offline")
             return
@@ -111,11 +130,16 @@ class Server():
     @commands.command()
     async def sendcommand(self, *, command:str):
         """Send a console command"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "offline":
             await self.bot.say("The server is offline")
             return
         amp.send_console_command(command)
+        console_logger.info("[Console Command] {}: {}".format(ctx.message.author, ctx.message.content.replace("{}{} ".format(config.command_prefix, ctx.command), "")))
         await self.bot.say("Command sent!")
 
 bot.add_cog(Server(bot))

@@ -28,8 +28,6 @@ class States:
     ONLINE = 20
     SHUTTING_DOWN = 30
 
-    def __str__(self):
-
 class Power:
     START = "start"
     RESTART = "restart"
