@@ -43,6 +43,9 @@ class Server():
         if state == "starting":
             await self.bot.say("The server is already starting")
             return
+        elif state == "shutting down":
+            await self.bot.say("The server is already shutting down")
+            return
         else:
             amp.control_power(amp.Power.RESTART)
             await self.bot.say("Restarting the server...")
@@ -54,6 +57,9 @@ class Server():
         state = amp.get_server_state()
         if state == "offline":
             await self.bot.say("The server is already stopped")
+            return
+        elif state == "shutting down":
+            await self.bot.say("The server is already shutting down")
             return
         else:
             amp.control_power(amp.Power.STOP)

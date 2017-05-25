@@ -26,6 +26,9 @@ class States:
     OFFLINE = 0
     STARTING = 10
     ONLINE = 20
+    SHUTTING_DOWN = 30
+
+    def __str__(self):
 
 class Power:
     START = "start"
@@ -54,6 +57,8 @@ def get_server_state():
         return "starting"
     elif state == States.ONLINE:
         return "online"
+    elif state == States.SHUTTING_DOWN:
+        return "shutting down"
     else:
         return str(state)
 
