@@ -127,8 +127,8 @@ class Server():
         await self.bot.say(amp.get_player_list())
 
     @checks.is_senior_admin()
-    @commands.command()
-    async def sendcommand(self, *, command:str):
+    @commands.command(pass_context=True)
+    async def sendcommand(self, ctx, *, command:str):
         """Send a console command"""
         try:
             state = amp.get_server_state()
