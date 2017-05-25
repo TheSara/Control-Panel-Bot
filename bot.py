@@ -18,13 +18,22 @@ class Server():
     @commands.command()
     async def state(self):
         """Gets the server's current state"""
-        await self.bot.say("The server is **{}**".format(amp.get_server_state()))
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
+        await self.bot.say("The server is **{}**".format(state))
 
     @checks.is_senior_admin()
     @commands.command()
     async def start(self):
         """Starts the server"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "online":
             await self.bot.say("The server is already running")
             return
@@ -39,7 +48,11 @@ class Server():
     @commands.command()
     async def restart(self):
         """Restarts the server"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "starting":
             await self.bot.say("The server is already starting")
             return
@@ -54,7 +67,11 @@ class Server():
     @commands.command()
     async def stop(self):
         """Stops the server"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "offline":
             await self.bot.say("The server is already stopped")
             return
@@ -69,7 +86,11 @@ class Server():
     @commands.command()
     async def kill(self):
         """Kills the server (useful if it isn't responding)"""
-        state = amp.get_server_state()
+        try:
+            state = amp.get_server_state()
+        except KeyError:
+            amp.get_session_id()
+            state = amp.get_server_state()
         if state == "offline":
             await self.bot.say("The server is already stopped")
             return
