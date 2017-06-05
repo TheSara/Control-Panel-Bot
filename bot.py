@@ -166,21 +166,12 @@ async def on_command_error(error, ctx):
         await bot.send_message(ctx.message.channel, error)
     except:
         pass
+     print("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, error))
 
 @bot.event
 async def on_ready():
     print("Connected! Logged in as {}/{}".format(bot.user, bot.user.id))
     amp.get_session_id()
-
-@bot.event
-async def on_command_error(error, ctx):
-    if isinstance(error, commands.CommandNotFound):
-        return
-    try:
-        await bot.send_message(ctx.message.channel, error)
-    except:
-        pass
-    print("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, error))
 
 @checks.is_dev()
 @bot.command(hidden=True, pass_context=True)
