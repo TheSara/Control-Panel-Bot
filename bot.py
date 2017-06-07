@@ -166,7 +166,7 @@ async def on_command_error(error, ctx):
         await bot.send_message(ctx.message.channel, error)
     except:
         pass
-     print("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, error))
+    print("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, error))
 
 @bot.event
 async def on_ready():
