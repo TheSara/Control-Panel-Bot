@@ -50,14 +50,14 @@ class Server():
             amp.get_session_id()
             state = amp.get_server_state()
         if state == "online":
-            await self.bot.say("The server is already running")
+            await self.bot.say("The UMC-server is already running")
             return
         elif state == "starting":
-            await self.bot.say("The server is already starting")
+            await self.bot.say("The UMC-server is already starting Wait...")
             return
         else:
             amp.control_power(amp.Power.START)
-            await self.bot.say("Starting the server...")
+            await self.bot.say("Starting the UMC-server...")
 
     @checks.is_senior_admin()
     @commands.command()
@@ -69,14 +69,14 @@ class Server():
             amp.get_session_id()
             state = amp.get_server_state()
         if state == "starting":
-            await self.bot.say("The server is already starting")
+            await self.bot.say("The UMC-server is already starting")
             return
         elif state == "shutting down":
-            await self.bot.say("The server is already shutting down")
+            await self.bot.say("The UMC-server is already shutting down")
             return
         else:
             amp.control_power(amp.Power.RESTART)
-            await self.bot.say("Restarting the server...")
+            await self.bot.say("Restarting the UMC-server...")
 
     @checks.is_senior_admin()
     @commands.command()
@@ -88,14 +88,14 @@ class Server():
             amp.get_session_id()
             state = amp.get_server_state()
         if state == "offline":
-            await self.bot.say("The server is already stopped")
+            await self.bot.say("The UMC-server is already stopped")
             return
         elif state == "shutting down":
-            await self.bot.say("The server is already shutting down")
+            await self.bot.say("The UMC-server is already shutting down")
             return
         else:
             amp.control_power(amp.Power.STOP)
-            await self.bot.say("Stopping the server...")
+            await self.bot.say("Stopping the UMC-server...")
 
     @checks.is_senior_admin()
     @commands.command()
@@ -107,11 +107,11 @@ class Server():
             amp.get_session_id()
             state = amp.get_server_state()
         if state == "offline":
-            await self.bot.say("The server is already stopped")
+            await self.bot.say("The UMC-server is already stopped")
             return
         else:
             amp.control_power(amp.Power.KILL)
-            await self.bot.say("Killing the server...")
+            await self.bot.say("Killing the UMC-server...")
 
     @commands.command()
     async def list(self):
@@ -122,7 +122,7 @@ class Server():
             amp.get_session_id()
             state = amp.get_server_state()
         if state == "offline":
-            await self.bot.say("The server is offline")
+            await self.bot.say("The UMC-server is offline")
             return
         await self.bot.say(amp.get_player_list())
 
